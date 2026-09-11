@@ -1,0 +1,86 @@
+.custom-cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  margin-top: -14px;
+  margin-left: -14px;
+  pointer-events: none;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-wrapper.visible {
+  opacity: 1;
+}
+
+/* Central Prominent Cursor Circle */
+.custom-cursor-core {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.custom-cursor-wrapper.hovering .custom-cursor-core {
+  transform: scale(1.6);
+}
+
+/* Pulsating Ripple Wave Container */
+.cursor-waves-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Thin Crisp Wave Rings */
+.cursor-wave {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor-wave.wave-1 {
+  animation: cursor-ripple 1.4s cubic-bezier(0.1, 0.8, 0.2, 1) infinite;
+}
+
+.cursor-wave.wave-2 {
+  animation: cursor-ripple 1.4s cubic-bezier(0.1, 0.8, 0.2, 1) infinite 0.45s;
+}
+
+.cursor-wave.wave-3 {
+  animation: cursor-ripple 1.4s cubic-bezier(0.1, 0.8, 0.2, 1) infinite 0.9s;
+}
+
+@keyframes cursor-ripple {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+
+@media (pointer: coarse), (hover: none) {
+  .custom-cursor-wrapper {
+    display: none !important;
+  }
+}

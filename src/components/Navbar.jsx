@@ -5,12 +5,22 @@ export default function Navbar() {
   const scrollToSection = (e, targetId) => {
     e.preventDefault();
     const element = document.getElementById(targetId);
-    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!element) return;
+
+    if (window.__lenis) {
+      window.__lenis.scrollTo(element, { duration: 1.4 });
+    } else {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   const scrollToTop = (e) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0, { duration: 1.4 });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (

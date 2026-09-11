@@ -90,10 +90,12 @@
 .footer-socials-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .footer-social-link {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
@@ -101,12 +103,12 @@
   font-size: 1rem;
   font-weight: 600;
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.06);
+  background-color: #141418;
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0.8rem 1.7rem;
   border-radius: 9999px;
   text-decoration: none;
-  backdrop-filter: blur(8px);
+  isolation: isolate;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -120,10 +122,11 @@
 }
 
 .footer-social-link:hover {
+  z-index: 5;
   background-color: #ffffff;
   color: #09090b;
   transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 22px rgba(255, 255, 255, 0.22);
 }
 
 .footer-social-link:hover .social-arrow {

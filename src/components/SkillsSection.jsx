@@ -10,6 +10,7 @@ import sabatImg     from '../assets/projects/Sabat.webp';
 export const PROJECTS_DATA = [
   {
     id: 'cookie',
+    year: 2026,
     title: 'COOKIE',
     url: 'https://cookie-one-orpin.vercel.app',
     image: cookieImg,
@@ -20,6 +21,7 @@ export const PROJECTS_DATA = [
   },
   {
     id: 'quoteflow',
+    year: 2026,
     title: 'QUOTEFLOW',
     url: 'https://quoteflow.website',
     image: quoteFlowImg,
@@ -30,6 +32,7 @@ export const PROJECTS_DATA = [
   },
   {
     id: 'luxe',
+    year: 2026,
     title: 'LUXE',
     url: 'https://luxe-three-lilac.vercel.app',
     image: luxeImg,
@@ -40,6 +43,7 @@ export const PROJECTS_DATA = [
   },
   {
     id: 'girlscode',
+    year: 2025,
     title: 'GIRLSCODE',
     url: 'https://girlscode.az',
     image: girlsCodeImg,
@@ -50,6 +54,7 @@ export const PROJECTS_DATA = [
   },
   {
     id: 'sabat',
+    year: 2025,
     title: 'SƏBAT',
     url: 'https://sabat.az',
     image: sabatImg,

@@ -82,7 +82,7 @@ export default function ProjectDetailPage({ project, onBack, onNextProject }) {
 
             <div className="sidebar-meta-item">
               <span className="meta-item-label">YEAR</span>
-              <span className="meta-item-value">2025</span>
+              <span className="meta-item-value">{project.year}</span>
             </div>
 
             <div className="sidebar-meta-item">

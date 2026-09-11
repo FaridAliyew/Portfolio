@@ -82,14 +82,14 @@
   text-transform: uppercase;
   color: #09090b;
   line-height: 0.9;
-  margin: 0 0 5rem 0;
+  margin: 0 0 2rem 0;
   user-select: none;
 }
 
 /* Scrub Paragraph */
 .about-scrub-paragraph {
   font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: clamp(1.65rem, 2.75vw, 2.75rem);
+  font-size: clamp(1.65rem, 2vw, 2.75rem);
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: -0.02em;
@@ -130,6 +130,7 @@
     border-radius: 18px;
     overflow: hidden;
     flex-shrink: 0;
+    margin-bottom: clamp(2.5rem, 3vh, 2.5rem);
   }
 
   .about-bg-image {
@@ -149,7 +150,7 @@
   }
 
   .about-scrub-paragraph {
-    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+    font-size: clamp(1.5rem, 3.2vw, 1.35rem);
     line-height: 1.55;
   }
 }
@@ -161,8 +162,8 @@
   }
 
   .about-bg-wrapper {
-    height: clamp(160px, 24vh, 210px);
-    border-radius: 14px;
+    height: clamp(260px, 24vh, 210px);
+    /* border-radius: 14px; */
   }
 
   .about-bg-image {
@@ -175,7 +176,7 @@
   }
 
   .about-scrub-paragraph {
-    font-size: clamp(0.92rem, 3.6vw, 1.12rem);
+    font-size: clamp(1.4rem, 3.6vw, 1.12rem);
     line-height: 1.5;
   }
 }

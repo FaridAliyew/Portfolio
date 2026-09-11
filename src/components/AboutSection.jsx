@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './AboutSection.css';
-import me2Img from '../assets/me2.png';
+import me2Img from '../assets/me2.webp';
 
 const BIO_TEXT = "Hi, I'm Farid Aliyev, a frontend developer who enjoys building modern, responsive web applications. I work mainly with HTML, CSS, JavaScript, TypeScript, React, and Next.js. I care about writing clean, consistent code and building fast interfaces that are easy to use.";
 

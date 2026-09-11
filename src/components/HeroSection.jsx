@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './HeroSection.css';
-import meCutoutImg from '../assets/me-cutout.png';
+import meCutoutImg from '../assets/me-cutout.webp';
 
 const TECH_STACK = [
   { id: 0, name: 'Next.js' },
@@ -63,7 +63,13 @@ export default function HeroSection() {
         </div>
 
         <div className="hero-portrait-stage">
-          <img src={meCutoutImg} alt="Farid Aliyev" className="hero-center-portrait" />
+          <img
+            src={meCutoutImg}
+            alt="Farid Aliyev"
+            className="hero-center-portrait"
+            fetchpriority="high"
+            decoding="async"
+          />
         </div>
 
         <div className="hero-overlay-content">

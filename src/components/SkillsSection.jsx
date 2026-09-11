@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './SkillsSection.css';
 
-import cookieImg    from '../assets/projects/Cookie.png';
-import quoteFlowImg from '../assets/projects/QuoteFlow.png';
-import luxeImg      from '../assets/projects/Luxe.png';
-import girlsCodeImg from '../assets/projects/GirlsCode.png';
-import sabatImg     from '../assets/projects/Sabat.png';
+import cookieImg    from '../assets/projects/Cookie.webp';
+import quoteFlowImg from '../assets/projects/QuoteFlow.webp';
+import luxeImg      from '../assets/projects/Luxe.webp';
+import girlsCodeImg from '../assets/projects/GirlsCode.webp';
+import sabatImg     from '../assets/projects/Sabat.webp';
 
 export const PROJECTS_DATA = [
   {
@@ -83,7 +83,7 @@ export default function SkillsSection({ onSelectProject }) {
                   onMouseLeave={() => setHoveredProjectId(null)}
                   onClick={() => onSelectProject && onSelectProject(project)}
                 >
-                  <img src={project.image} alt={project.title} className="skills-project-img" />
+                  <img src={project.image} alt={project.title} className="skills-project-img" loading="lazy" decoding="async" />
                   <div className="skills-img-title-overlay">
                     <span className="skills-overlay-num">0{index + 1}</span>
                     <h3 className="skills-overlay-title">{project.title}</h3>

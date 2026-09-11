@@ -6,6 +6,7 @@ import SkillsSection, { PROJECTS_DATA } from './components/SkillsSection';
 import Footer from './components/Footer';
 import ProjectDetailPage from './components/ProjectDetailPage';
 import PageTransitionCurtain from './components/PageTransitionCurtain';
+import PagePreloader from './components/PagePreloader';
 
 const COVER_DURATION   = 960;
 const LOCK_DURATION    = 80;
@@ -69,6 +70,7 @@ export default function App() {
 
   return (
     <div className="app-container">
+      <PagePreloader />
       <PageTransitionCurtain status={transitionStatus} projectName={transitionName} />
 
       {activeProject ? (

@@ -1,0 +1,20 @@
+/* ==========================================================================
+   SEAMLESS 3D GLASS CODE SYMBOL
+   ========================================================================== */
+
+.glass-code-svg-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.glass-code-svg {
+  width: clamp(140px, 18vw, 220px);
+  height: auto;
+  display: block;
+  overflow: visible;
+  transition: filter 0.3s ease;
+}

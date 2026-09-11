@@ -1,0 +1,124 @@
+.navbar-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+body.in-dark-footer .navbar-header {
+  background: rgba(9, 9, 11, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar-inner {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-decoration: none;
+  user-select: none;
+}
+
+.brand-firstname {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #09090b;
+  transition: color 0.4s ease;
+}
+
+.brand-lastname {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #52525b;
+  margin-left: 1.4rem;
+  transition: color 0.4s ease;
+}
+
+body.in-dark-footer .brand-firstname {
+  color: #ffffff;
+}
+
+body.in-dark-footer .brand-lastname {
+  color: #a1a1aa;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 2.8rem);
+}
+
+.nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #52525b;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  position: relative;
+  padding: 0.3rem 0;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1.5px;
+  background-color: #09090b;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+}
+
+.nav-link:hover {
+  color: #09090b;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+body.in-dark-footer .nav-link {
+  color: #a1a1aa;
+}
+
+body.in-dark-footer .nav-link:hover {
+  color: #ffffff;
+}
+
+body.in-dark-footer .nav-link::after {
+  background-color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .navbar-nav {
+    gap: 1.2rem;
+  }
+  
+  .nav-link {
+    font-size: 0.85rem;
+  }
+}

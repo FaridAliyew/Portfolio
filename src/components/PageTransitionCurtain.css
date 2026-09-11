@@ -1,0 +1,124 @@
+/* ==========================================================================
+   STAGGERED COLUMNS SHUTTER WIPE (AWWWARDS STEPPED WAVE TRANSITION)
+   ========================================================================== */
+
+.transition-curtain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: all;
+  overflow: hidden;
+}
+
+/* Container holding the 8 equal vertical columns */
+.curtain-columns-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+/* 
+  Individual Vertical Column Strip.
+  Default: locked at 0 (covering the screen).
+  This prevents any flash-back to -100% during state transitions.
+*/
+.curtain-column-strip {
+  flex: 1;
+  height: 100%;
+  background-color: #09090b;
+  will-change: transform;
+  transform: translateY(0%);
+  /* Prevent sub-pixel gaps between strips */
+  box-shadow: 0 0 1px #09090b;
+}
+
+/* --------------------------------------------------------------------------
+   PHASE 1: COVERING — Strips drop down from top, staggered left to right
+   -------------------------------------------------------------------------- */
+.transition-curtain-overlay.covering .curtain-column-strip {
+  animation: column-drop-in 0.55s cubic-bezier(0.83, 0, 0.17, 1) both;
+}
+
+@keyframes column-drop-in {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   PHASE 2: COVERED — All strips locked at 0% (fully covering the screen).
+   No animation. New page loads silently behind the black curtain.
+   -------------------------------------------------------------------------- */
+.transition-curtain-overlay.covered .curtain-column-strip {
+  transform: translateY(0%);
+  animation: none;
+}
+
+/* --------------------------------------------------------------------------
+   PHASE 3: UNCOVERING — Strips exit downward, staggered left to right
+   -------------------------------------------------------------------------- */
+.transition-curtain-overlay.uncovering .curtain-column-strip {
+  animation: column-drop-out 0.55s cubic-bezier(0.83, 0, 0.17, 1) both;
+}
+
+@keyframes column-drop-out {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Minimalist Center Project Name Badge inside the Curtain
+   -------------------------------------------------------------------------- */
+.curtain-badge-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.curtain-badge-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Title fades in during covering phase */
+.transition-curtain-overlay.covering .curtain-badge-title {
+  transition: opacity 0.35s ease 0.45s, transform 0.35s ease 0.45s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Title stays visible while screen is locked */
+.transition-curtain-overlay.covered .curtain-badge-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Title fades out quickly when uncovering begins */
+.transition-curtain-overlay.uncovering .curtain-badge-title {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0;
+  transform: translateY(-6px);
+}

@@ -1,0 +1,627 @@
+/* ==========================================================================
+   SKILLS / PROJECTS SHOWCASE COMPONENT
+   ========================================================================== */
+
+.skills-outer-container {
+  position: relative;
+  width: 100%;
+  background-color: var(--site-bg, #ffffff);
+  overflow: clip;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Sticky 100vh Viewport Stage: Keeps "SKILLS" Stationary in Dead Center
+   -------------------------------------------------------------------------- */
+.skills-sticky-stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.skills-center-title {
+  font-family: var(--font-sans);
+  font-size: clamp(5.5rem, 16vw, 14rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: var(--site-text, #09090b);
+  line-height: 0.85;
+  text-transform: uppercase;
+  user-select: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* When ANY project is hovered, "SKILLS" disappears smoothly */
+.skills-sticky-stage.title-hidden .skills-center-title {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* --------------------------------------------------------------------------
+   Cards Stream:
+   - Starts with padding-top: 100vh so that upon initial arrival,
+     THERE ARE NO CARDS ON SCREEN (only the pure centered "SKILLS" title).
+   - As scroll proceeds, cards stream upward from bottom to top!
+   -------------------------------------------------------------------------- */
+.skills-cards-stream {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  margin-top: -100vh; /* Aligns with sticky stage */
+  padding-top: 100vh;  /* Guarantees first screen is clean white + SKILLS title only */
+  padding-bottom: 115vh;
+  padding-left: clamp(1.5rem, 4vw, 4.5rem);
+  padding-right: clamp(1.5rem, 4vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(110px, 20vh, 240px);
+  box-sizing: border-box;
+}
+
+.skills-row-item {
+  width: 100%;
+  display: flex;
+}
+
+/* Alternating sides */
+.skills-row-item.side-left {
+  justify-content: flex-start;
+}
+
+.skills-row-item.side-right {
+  justify-content: flex-end;
+}
+
+.skills-card-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  cursor: default;
+}
+
+/* For left-aligned project: image on left, description box on right */
+.side-left .skills-card-wrapper {
+  flex-direction: row;
+}
+
+/* For right-aligned project: image on right, description box on left */
+.side-right .skills-card-wrapper {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   Project Image Box:
+   - ONLY hovering this box triggers the color reveal & description!
+   -------------------------------------------------------------------------- */
+.skills-image-box {
+  position: relative;
+  width: clamp(320px, 44vw, 620px);
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #f4f4f5;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.in-dark-footer .skills-image-box {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.skills-image-box:hover,
+.skills-image-box.img-is-hovered {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.16);
+}
+
+body.in-dark-footer .skills-image-box:hover,
+body.in-dark-footer .skills-image-box.img-is-hovered {
+  box-shadow: 0 28px 65px rgba(0, 0, 0, 0.65);
+}
+
+.skills-project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  /* Default: Black and White (Grayscale) */
+  filter: grayscale(100%) contrast(1.04);
+  transition: filter 0.55s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover: Softly returns to full natural default color */
+.skills-image-box:hover .skills-project-img,
+.skills-image-box.img-is-hovered .skills-project-img {
+  filter: grayscale(0%) contrast(1.0);
+  transform: scale(1.04);
+}
+
+/* --------------------------------------------------------------------------
+   Hover Overlay: Site Title Written in Bold Uppercase OVER the Image
+   -------------------------------------------------------------------------- */
+.skills-img-title-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.32) 55%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(1.4rem, 2.5vw, 2.4rem);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.skills-image-box:hover .skills-img-title-overlay,
+.skills-image-box.img-is-hovered .skills-img-title-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.skills-overlay-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.3rem;
+}
+
+.skills-overlay-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+
+.skills-click-hint {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* --------------------------------------------------------------------------
+   Hover Description in Empty Opposite Space
+   -------------------------------------------------------------------------- */
+.skills-description-box {
+  flex: 1;
+  max-width: 540px;
+  padding: 0 clamp(1.8rem, 4vw, 4rem);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.desc-side-right {
+  transform: translateX(-24px);
+}
+
+.desc-side-left {
+  transform: translateX(24px);
+}
+
+.skills-description-box.desc-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.skills-desc-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.skills-desc-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #71717a;
+  margin-bottom: 0.8rem;
+  transition: color 0.8s ease;
+}
+
+body.in-dark-footer .skills-desc-tag {
+  color: #a1a1aa;
+}
+
+.skills-desc-project-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #09090b;
+  margin-bottom: 0.8rem;
+  line-height: 1.1;
+  transition: color 0.8s ease;
+}
+
+body.in-dark-footer .skills-desc-project-title {
+  color: #ffffff;
+}
+
+.skills-desc-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.6;
+  color: #52525b;
+  margin-bottom: 1.4rem;
+  transition: color 0.8s ease;
+}
+
+body.in-dark-footer .skills-desc-text {
+  color: #d4d4d8;
+}
+
+.skills-desc-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.skills-tech-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #27272a;
+  background-color: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  transition: all 0.8s ease;
+}
+
+body.in-dark-footer .skills-tech-badge {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.skills-inspect-btn {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #09090b;
+  border: none;
+  padding: 0.75rem 1.6rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+body.in-dark-footer .skills-inspect-btn {
+  background-color: #ffffff;
+  color: #09090b;
+}
+
+.skills-inspect-btn:hover {
+  background-color: #27272a;
+  transform: translateY(-2px);
+}
+
+body.in-dark-footer .skills-inspect-btn:hover {
+  background-color: #e4e4e7;
+}
+
+/* --------------------------------------------------------------------------
+   Detailed Project Modal (Click on Project)
+   -------------------------------------------------------------------------- */
+.project-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: rgba(9, 9, 11, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: overlay-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.project-detail-window {
+  width: 100%;
+  max-width: 1360px;
+  height: 92vh;
+  background-color: #ffffff;
+  border-radius: 28px 28px 0 0;
+  overflow-y: auto;
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: window-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes window-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Close Button */
+.project-modal-close-btn {
+  position: sticky;
+  top: 1.8rem;
+  right: 1.8rem;
+  align-self: flex-end;
+  z-index: 50;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #09090b;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: -40px;
+}
+
+.project-modal-close-btn:hover {
+  background-color: #09090b;
+  color: #ffffff;
+}
+
+/* Header with Giant Centered Black Title */
+.project-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+}
+
+.project-modal-tag {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #71717a;
+  margin-bottom: 0.6rem;
+}
+
+.project-modal-title {
+  font-family: var(--font-sans);
+  font-size: clamp(3rem, 7.5vw, 6.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #09090b;
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* Scrollable Modal Body */
+.project-modal-body {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 3rem) 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+/* Clickable Image Banner */
+.project-modal-image-wrap {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  background-color: #f4f4f5;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-modal-image-wrap:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 65px rgba(0, 0, 0, 0.18);
+}
+
+.project-modal-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project-modal-img-badge {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+.project-modal-image-wrap:hover .project-modal-img-badge {
+  background-color: #000000;
+}
+
+/* Info Section (Overview & Meta) */
+.project-modal-info-section {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.project-modal-section-heading {
+  font-family: var(--font-sans);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #09090b;
+  margin-bottom: 1rem;
+}
+
+.project-modal-long-desc {
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #3f3f46;
+  margin-bottom: 2rem;
+}
+
+.project-modal-action-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.project-modal-live-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #09090b;
+  text-decoration: none;
+  padding: 0.9rem 2.2rem;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+
+.project-modal-live-btn:hover {
+  background-color: #27272a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.project-modal-info-col-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-left: clamp(1rem, 3vw, 2.5rem);
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+
+.meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.meta-tag-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #18181b;
+  background-color: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+}
+
+.meta-url-link {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: #09090b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.meta-url-link:hover {
+  color: #71717a;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .skills-card-wrapper {
+    flex-direction: column !important;
+    gap: 1.5rem;
+  }
+
+  .skills-image-box {
+    width: 100%;
+  }
+
+  .skills-description-box {
+    max-width: 100%;
+    padding: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none !important;
+  }
+
+  .project-modal-info-section {
+    grid-template-columns: 1fr;
+  }
+
+  .project-modal-info-col-meta {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 1.5rem;
+  }
+}

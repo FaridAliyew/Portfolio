@@ -13,15 +13,18 @@ import PagePreloader from './components/PagePreloader';
 import CustomCursor from './components/CustomCursor';
 
 const COVER_DURATION   = 960;
-const LOCK_DURATION    = 80;
+const LOCK_DURATION    = 150;
 const UNCOVER_DURATION = 960;
 
 export default function App() {
   const [activeProject,    setActiveProject]    = useState(null);
   const [transitionStatus, setTransitionStatus] = useState('idle');
   const [transitionName,   setTransitionName]   = useState('');
-  const returnScrollPosRef = useRef(0);
-  const lenisRef           = useRef(null);
+  
+  const returnScrollPosRef       = useRef(0);
+  const lastViewedProjectIdRef   = useRef(null);
+  const pendingRestoreTargetRef   = useRef(null);
+  const lenisRef                 = useRef(null);
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -50,6 +53,38 @@ export default function App() {
     };
   }, []);
 
+  // Restore scroll directly to the exact project card when returning from detail page
+  useEffect(() => {
+    if (!activeProject && pendingRestoreTargetRef.current) {
+      const targetId = pendingRestoreTargetRef.current;
+      pendingRestoreTargetRef.current = null;
+
+      const performScroll = () => {
+        const targetEl = document.getElementById(`project-${targetId}`);
+
+        if (lenisRef.current) {
+          lenisRef.current.resize();
+          if (targetEl) {
+            const cardOffset = -Math.round(window.innerHeight * 0.15);
+            lenisRef.current.scrollTo(targetEl, { offset: cardOffset, immediate: true });
+          } else if (returnScrollPosRef.current) {
+            lenisRef.current.scrollTo(returnScrollPosRef.current, { immediate: true });
+          }
+        } else {
+          if (targetEl) {
+            targetEl.scrollIntoView({ block: 'center', behavior: 'instant' });
+          } else if (returnScrollPosRef.current) {
+            window.scrollTo({ top: returnScrollPosRef.current, behavior: 'instant' });
+          }
+        }
+      };
+
+      performScroll();
+      const rafId = requestAnimationFrame(performScroll);
+      return () => cancelAnimationFrame(rafId);
+    }
+  }, [activeProject]);
+
   const runTransition = (newName, onSwap) => {
     if (transitionStatus !== 'idle') return;
 
@@ -71,7 +106,8 @@ export default function App() {
   };
 
   const handleOpenProject = (project) => {
-    returnScrollPosRef.current = window.scrollY;
+    returnScrollPosRef.current     = window.__lenis ? window.__lenis.scroll : window.scrollY;
+    lastViewedProjectIdRef.current = project.id;
 
     runTransition(project.title, () => {
       setActiveProject(project);
@@ -84,27 +120,40 @@ export default function App() {
   };
 
   const handleBackToPortfolio = () => {
-    runTransition('FARID ALIYEV', () => {
+    const targetId = activeProject ? activeProject.id : lastViewedProjectIdRef.current;
+    pendingRestoreTargetRef.current = targetId;
+
+    runTransition('PROJECTS', () => {
       setActiveProject(null);
+    });
+  };
+
+  const activeIndex = activeProject
+    ? PROJECTS_DATA.findIndex((p) => p.id === activeProject.id)
+    : -1;
+
+  const hasPrev = activeIndex > 0;
+  const hasNext = activeIndex >= 0 && activeIndex < PROJECTS_DATA.length - 1;
+
+  const handlePrevProject = () => {
+    if (!hasPrev) return;
+    const prevProj = PROJECTS_DATA[activeIndex - 1];
+    lastViewedProjectIdRef.current = prevProj.id;
+
+    runTransition(prevProj.title, () => {
+      setActiveProject(prevProj);
       if (lenisRef.current) {
         lenisRef.current.scrollTo(0, { immediate: true });
       } else {
         window.scrollTo(0, 0);
       }
-      requestAnimationFrame(() => {
-        if (lenisRef.current) {
-          lenisRef.current.scrollTo(returnScrollPosRef.current || 0, { immediate: true });
-        } else {
-          window.scrollTo({ top: returnScrollPosRef.current || 0, behavior: 'instant' });
-        }
-      });
     });
   };
 
   const handleNextProject = () => {
-    if (!activeProject) return;
-    const idx      = PROJECTS_DATA.findIndex((p) => p.id === activeProject.id);
-    const nextProj = PROJECTS_DATA[(idx + 1) % PROJECTS_DATA.length];
+    if (!hasNext) return;
+    const nextProj = PROJECTS_DATA[activeIndex + 1];
+    lastViewedProjectIdRef.current = nextProj.id;
 
     runTransition(nextProj.title, () => {
       setActiveProject(nextProj);
@@ -126,7 +175,10 @@ export default function App() {
         <ProjectDetailPage
           project={activeProject}
           onBack={handleBackToPortfolio}
+          onPrevProject={handlePrevProject}
           onNextProject={handleNextProject}
+          hasPrev={hasPrev}
+          hasNext={hasNext}
         />
       ) : (
         <>

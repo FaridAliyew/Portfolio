@@ -71,7 +71,7 @@ export default function SkillsSection({ onSelectProject }) {
   return (
     <div className="skills-outer-container" id="projects">
       <div className={`skills-sticky-stage ${hoveredProjectId ? 'title-hidden' : ''}`}>
-        <h1 className="skills-center-title">PROJECT</h1>
+        <h1 className="skills-center-title">PROJECTS</h1>
       </div>
 
       <div className="skills-cards-stream">
@@ -80,7 +80,7 @@ export default function SkillsSection({ onSelectProject }) {
           const isLeft    = project.side === 'left';
 
           return (
-            <div key={project.id} className={`skills-row-item side-${project.side}`}>
+            <div key={project.id} id={`project-${project.id}`} className={`skills-row-item side-${project.side}`}>
               <div className="skills-card-wrapper">
                 <div
                   className={`skills-image-box ${isHovered ? 'img-is-hovered' : ''}`}

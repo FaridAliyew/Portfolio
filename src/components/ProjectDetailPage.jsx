@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import './ProjectDetailPage.css';
 
-export default function ProjectDetailPage({ project, onBack, onNextProject }) {
+export default function ProjectDetailPage({
+  project,
+  onBack,
+  onPrevProject,
+  onNextProject,
+  hasPrev,
+  hasNext,
+}) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [project]);
@@ -82,7 +89,7 @@ export default function ProjectDetailPage({ project, onBack, onNextProject }) {
 
             <div className="sidebar-meta-item">
               <span className="meta-item-label">YEAR</span>
-              <span className="meta-item-value">{project.year}</span>
+              <span className="meta-item-value">{project.year || 2026}</span>
             </div>
 
             <div className="sidebar-meta-item">
@@ -109,14 +116,19 @@ export default function ProjectDetailPage({ project, onBack, onNextProject }) {
         </section>
 
         <footer className="detail-footer-nav">
-          <button onClick={onBack} className="detail-return-btn">
-            ← Return to Portfolio
-          </button>
+          {hasPrev ? (
+            <button onClick={onPrevProject} className="detail-prev-btn" aria-label="Previous project">
+              <span className="btn-arrow-icon">←</span>
+              <span>Previous Project</span>
+            </button>
+          ) : (
+            <div className="detail-nav-spacer" />
+          )}
 
-          {onNextProject && (
-            <button onClick={onNextProject} className="detail-next-btn">
+          {hasNext && (
+            <button onClick={onNextProject} className="detail-next-btn" aria-label="Next project">
               <span>Next Project</span>
-              <span>→</span>
+              <span className="btn-arrow-icon">→</span>
             </button>
           )}
         </footer>

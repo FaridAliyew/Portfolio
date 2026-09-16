@@ -624,4 +624,8 @@ body.in-dark-footer .skills-inspect-btn:hover {
     border-top: 1px solid rgba(0, 0, 0, 0.08);
     padding-top: 1.5rem;
   }
+
+  .skills-center-title {
+    font-size: clamp(4rem, 14vw, 10rem);
+  }
 }

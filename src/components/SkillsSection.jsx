@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
 import './SkillsSection.css';
 
-import cookieImg    from '../assets/projects/Cookie.webp';
+import wineImg from '../assets/projects/Wine.webp';
+import cookieImg from '../assets/projects/Cookie.webp';
 import quoteFlowImg from '../assets/projects/QuoteFlow.webp';
-import luxeImg      from '../assets/projects/Luxe.webp';
+import luxeImg from '../assets/projects/Luxe.webp';
 import girlsCodeImg from '../assets/projects/GirlsCode.webp';
-import sabatImg     from '../assets/projects/Sabat.webp';
+import sabatImg from '../assets/projects/Sabat.webp';
+
 
 export const PROJECTS_DATA = [
+  {
+    id: 'wine',
+    year: 2026,
+    title: 'WINE',
+    url: 'https://wine-website-omega.vercel.app/',
+    image: wineImg,
+    side: 'left',
+    tag: 'Web Application • Creative Design',
+    description: 'A premium wine website concept featuring a cinematic visual experience, elegant storytelling, and a curated collection of exclusive wines inspired by the vineyards of Azerbaijan.',
+    tech: ['React', 'Next.js', 'Tailwind CSS', 'Framer Motion'],
+  },
   {
     id: 'cookie',
     year: 2026,
     title: 'COOKIE',
     url: 'https://cookie-one-orpin.vercel.app',
     image: cookieImg,
-    side: 'left',
+    side: 'right',
     tag: 'Web Application • Creative Design',
     description: 'A delightful interactive confectionery and cookie digital showcase designed with playful animations, fluid layouts, and a hyper-responsive frontend architecture.',
     tech: ['React', 'Next.js', 'Tailwind CSS', 'Framer Motion'],
@@ -25,7 +38,7 @@ export const PROJECTS_DATA = [
     title: 'QUOTEFLOW',
     url: 'https://quoteflow.website',
     image: quoteFlowImg,
-    side: 'right',
+    side: 'left',
     tag: 'SaaS Platform • Workflow Automation',
     description: 'A sleek productivity and quotation management workflow system engineered for swift client invoicing, minimal visual clutter, and effortless user operations.',
     tech: ['TypeScript', 'Next.js', 'PostgreSQL', 'Modern UI'],
@@ -36,7 +49,7 @@ export const PROJECTS_DATA = [
     title: 'LUXE',
     url: 'https://luxe-three-lilac.vercel.app',
     image: luxeImg,
-    side: 'left',
+    side: 'right',
     tag: 'E-Commerce • High Fashion',
     description: 'An ultra-premium luxury portfolio and boutique experience crafted with sophisticated typography, subtle micro-interactions, and high-end editorial polish.',
     tech: ['React', 'CSS Modules', 'Web Performance', 'UI/UX'],
@@ -47,7 +60,7 @@ export const PROJECTS_DATA = [
     title: 'GIRLSCODE',
     url: 'https://girlscode.az',
     image: girlsCodeImg,
-    side: 'right',
+    side: 'left',
     tag: 'EdTech Academy • Community Platform',
     description: 'An empowering educational ecosystem that supports women venturing into software engineering through structured bootcamps, mentorships, and rich web resources.',
     tech: ['JavaScript', 'React', 'Responsive Design', 'Accessibility'],
@@ -58,7 +71,7 @@ export const PROJECTS_DATA = [
     title: 'SƏBAT',
     url: 'https://sabat.az',
     image: sabatImg,
-    side: 'left',
+    side: 'right',
     tag: 'Corporate & Advisory • Digital Identity',
     description: 'A comprehensive corporate digital ecosystem designed to convey stability, trust, and contemporary financial advisory solutions with impeccable digital branding.',
     tech: ['Next.js', 'TypeScript', 'Tailwind', 'Performance Optimization'],
@@ -77,7 +90,7 @@ export default function SkillsSection({ onSelectProject }) {
       <div className="skills-cards-stream">
         {PROJECTS_DATA.map((project, index) => {
           const isHovered = hoveredProjectId === project.id;
-          const isLeft    = project.side === 'left';
+          const isLeft = project.side === 'left';
 
           return (
             <div key={project.id} id={`project-${project.id}`} className={`skills-row-item side-${project.side}`}>
